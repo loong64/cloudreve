@@ -33,7 +33,7 @@ jobs:
       - name: Check Build
         id: check-build
         run: |
-          gh release view ${version} -R ${{ github.repository }} | grep cloudreve_${version}_linux_loong64.zip >/dev/null 2>&1 || echo "build=1" >> $GITHUB_OUTPUT
+          gh release view ${version} -R ${{ github.repository }} | grep cloudreve_${version}_linux_loong64.tar.gz >/dev/null 2>&1 || echo "build=1" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

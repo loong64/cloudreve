@@ -40,8 +40,7 @@ builds:
       - 7
 
 archives:
-  - format_overrides:
-    - formats: [ 'zip' ]
+  - formats: [ 'tar.gz' ]
     # this name template makes the OS and Arch compatible with the results of uname.
     name_template: >-
       cloudreve_{{.Tag}}_{{- .Os }}_{{ .Arch }}
