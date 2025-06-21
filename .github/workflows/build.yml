@@ -21,7 +21,7 @@ jobs:
       - name: Check Version
         id: get-version
         run: |
-          version=$(curl -s 'https://api.github.com/repos/cloudreve/Cloudreve/releases/latest' | jq -r ".tag_name")
+          version=$(curl -s 'https://api.github.com/repos/cloudreve/cloudreve/releases/latest' | jq -r ".tag_name")
           echo "Current Version: ${version}"
           if [ -z "${version}" ] || [ "${version}" == "null" ]; then
             echo "Failed to get version"
@@ -52,7 +52,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          repository: cloudreve/Cloudreve
+          repository: cloudreve/cloudreve
           ref: ${{ env.version }}
           submodules: true
 
@@ -69,7 +69,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
 
       - name: Setup Go
         uses: actions/setup-go@v5
@@ -106,15 +106,15 @@ jobs:
         run: |
           mkdir -p .build
           wget -qO Dockerfile https://github.com/${{ github.repository }}/raw/refs/heads/master/Dockerfile
-          wget -qO .build/entrypoint.sh https://github.com/cloudreve/Cloudreve/raw/refs/heads/master/.build/entrypoint.sh
-          wget -qO .build/aria2.supervisor.conf https://github.com/cloudreve/Cloudreve/raw/refs/heads/master/.build/aria2.supervisor.conf 
+          wget -qO .build/entrypoint.sh https://github.com/cloudreve/cloudreve/raw/refs/heads/master/.build/entrypoint.sh
+          wget -qO .build/aria2.supervisor.conf https://github.com/cloudreve/cloudreve/raw/refs/heads/master/.build/aria2.supervisor.conf 
           sudo chmod +x .build/entrypoint.sh
-        working-directory: dist/Cloudreve_linux_loong64
+        working-directory: dist/cloudreve_linux_loong64
 
       - name: Build and push image
         uses: docker/build-push-action@v4
         with:
-          context: dist/Cloudreve_linux_loong64/
+          context: dist/cloudreve_linux_loong64/
           platforms: linux/loong64
           push: true
           tags: |

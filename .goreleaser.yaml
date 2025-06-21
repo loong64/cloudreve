@@ -5,15 +5,11 @@
 
 version: 2
 
-env:
-  - CI=false
-  - GENERATE_SOURCEMAP=false
-  - NODE_OPTIONS=--max-old-space-size=8192
 before:
   hooks:
-    - go get -u modernc.org/sqlite
     - go mod tidy
-    - sh -c "cd assets && rm -rf build && yarn install --network-timeout 1000000 && yarn run build && cd ../ && zip -r - assets/build >assets.zip"
+    - chmod +x ./.build/build-assets.sh
+    - ./.build/build-assets.sh {{.Version}}
 
 builds:
   - binary: cloudreve
@@ -21,7 +17,7 @@ builds:
       - -trimpath
     ldflags:
       - -w -s
-      - -X 'github.com/cloudreve/Cloudreve/v3/pkg/conf.BackendVersion={{.Tag}}' -X 'github.com/cloudreve/Cloudreve/v3/pkg/conf.LastCommit={{.ShortCommit}}'
+      - -X 'github.com/cloudreve/Cloudreve/v4/application/constants.BackendVersion={{.Tag}}' -X 'github.com/cloudreve/Cloudreve/v4/application/constants.LastCommit={{.ShortCommit}}'
     env:
       - CGO_ENABLED=0
     goos:
@@ -63,4 +59,4 @@ changelog:
 release:
   github:
     owner: loong64
-    name: Cloudreve
+    name: cloudreve
